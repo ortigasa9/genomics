@@ -1,0 +1,25 @@
+from Bio import AlignIO
+alignment = AlignIO.read("frame_input.fa", "phylip")
+for i in alignment:
+	ref=i
+a=ref.seq.find("-")
+w=[]
+for x,y in enumerate(ref.seq):
+	if y == "-":
+		w=w+[x]
+b=a
+v=[a]
+for z in w[1:]:
+	if z == b+1:
+		b=z
+	else:
+		c=z
+		v=v+[b, c]
+		b=c
+output=alignment[:,:v[0]]
+d=1
+for e in v:
+	if d<len(v)
+		output=output+alignment[:, v[d]+1:v[d+1]]
+		d=d+2	
+AlignIO.write(output, "in_frame.fa", "phylip")	

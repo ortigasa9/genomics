@@ -1,3 +1,4 @@
+#!/usr/bin/env r
 y<-c("branch", "t", "N", "S", "dN/dS", "dN", "dS", "N*dN", "S*dS")
 ff<-list.files(pattern="1.txt")
 fl<-lapply(ff, read.table)

@@ -44,6 +44,9 @@ An R script. Set the working directory to the folder containing the output files
 Running the script will automatically combine all the dN/dS tables from the text files into a single
 table and generate a new column to indicate the corresponding gene name for each value. 
 
+Name: Codeml.ctl
 
+Description:
+A text file. It contains the settings used to run codeml PAML for the execution of this pipeline. 
 
 

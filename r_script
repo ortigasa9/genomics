@@ -1,0 +1,19 @@
+y<-c("branch", "t", "N", "S", "dN/dS", "dN", "dS", "N*dN", "S*dS")
+ff<-list.files(pattern="1.txt")
+fl<-lapply(ff, read.table)
+names(fl)<-gsub("\\.txt","", ff)
+h<-names(fl)
+x=0
+suma<-function(w){
+  cbind(w, gene=h[x<<-x+1])
+  
+}
+fmt<-function(i){
+  i<-i[-1,]
+  i<-i[-14,]
+}
+ffl<-lapply(fl, fmt)
+ffl<-lapply(ffl, setNames, y)
+fffl<-lapply(ffl, suma)
+dnds_table<-do.call("rbind", fffl)
+rownames(dnds_table)<-NULL

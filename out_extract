@@ -1,0 +1,12 @@
+import sys, getopt
+myopts, args=getopt.getopt(sys.argv[1:],"o:")
+for o, a in myopts:
+	if o=="-o":
+		ofile=a
+file=open("mlc","r")
+output=file.read()
+mlc=output[52146:53142]
+mlc=str(mlc)
+file2=open("%s" % (ofile),"w")
+file2.write(mlc)
+file2.close()

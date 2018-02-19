@@ -1,0 +1,6 @@
+file=open("infile", "r")
+text=file.read()
+text2=text[:7]+" I "+text[7:]
+file2=open("infile2", "w")
+file2.write(text2)
+file2.close()

@@ -1,0 +1,80 @@
+import sys, getopt
+myopts, args=getopt.getopt(sys.argv[1:],"i:o:")
+for o, a in myopts:
+	if o=="-i":
+		ifile=a
+	if o=="-o":
+		ofile=a
+from Bio import AlignIO
+alignment = AlignIO.read("%s" % ifile, "phylip")
+for i in alignment:
+	ref=i
+a=ref.seq.find("-")
+w=[]
+for x,y in enumerate(ref.seq):
+	if y == "-":
+		w=w+[x]
+b=a
+v=[a]
+for z in w[1:]:
+	if z == b+1:
+		b=z
+	else:
+		c=z
+		v=v+[b, c]
+		b=c
+output=alignment[:,:v[0]]
+d=1
+t=0
+for e in v:
+	if ((len(v)-1)%2==0):
+		if d<len(v):
+			if v[d]+1==v[d+1]:
+				output=output+alignment[:, v[d]+1:v[d+1]+1]
+				d=d+2
+			else:
+				output=output+alignment[:, v[d]+1:v[d+1]]
+				d=d+2
+	else:
+		if d<len(v) and d!=len(v)-1:
+			if v[d]+1==v[d+1]:
+				output=output+alignment[:, v[d]+1:v[d+1]+1]
+				d=d+2
+			else:
+				output=output+alignment[:, v[d]+1:v[d+1]]
+				d=d+2
+		else:
+			if t==0:
+				output=output+alignment[:, v[d]+1:]
+				t=1
+q=0
+while q<len(output):
+	j=[]
+	o=3
+	for l in range(3,len(output[q])):
+		u=""
+		if l==o and l<=(len(output[q].seq)-3):
+			u=u+output[q].seq[o]+output[q].seq[o+1]+output[q].seq[o+2]
+			if u=="taa" or u=="tag" or u=="tga":
+				j=j+[l, l+2]
+			o=o+3
+	print(j)
+	if len(j)!=0:
+		output2=output[:,:j[0]]
+		k=1
+		g=0
+		for p in j:
+			if k<len(j) and k!=len(j)-1:
+				if j[k]+1==j[k+1]:
+					output2=output2+output[:, j[k]+1:j[k+1]+1]
+					k=k+2
+				else:
+					output2=output2+output[:, j[k]+1:j[k+1]]
+					k=k+2
+			else:
+				if g==0:
+					output2=output2+output[:, j[k]+1:]
+					output=output2
+					g=1
+	q=q+1
+AlignIO.write(output, "%s" % ofile, "phylip")

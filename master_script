@@ -1,0 +1,20 @@
+#!/bin/bash
+for file in EmuJ_*.fa
+do
+	clustalo -i $file -o ${file%.fa}_a.fa --outfmt=phy
+done
+for file in *_a.fa
+do
+	python inframe.v02.py -i $file -o ${file%_a.fa}_f.fa
+done
+for file in *_f.fa
+do
+	cp $file infile
+	phylip dnaml
+	python inter_leaved.py
+	codeml
+	python out_extract.py -o ${file%_f.fa}.txt
+	rm infile
+	rm outfile
+	rm outtree
+done
